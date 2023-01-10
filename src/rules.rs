@@ -29,9 +29,13 @@ pub fn get_ability_modifier(ability_score:i32) -> i32 {
     (((ability_score-10) as f32) / 2.0).floor() as i32
 }
 
-pub fn get_max_hit_points(hit_dice:i32, rolled_hit_points:i32, hit_die_size:i32, constitution:i32) -> i32 {
-    let max_hp = hit_die_size + rolled_hit_points + (hit_dice * get_ability_modifier(constitution));
-    cmp::max(1, max_hp)
+pub fn get_max_hit_points(hit_dice:i32, rolled_hit_points:i32, hit_die_size:i32, constitution:i32, is_player:bool) -> i32 {
+    if is_player {
+        let max_hp = hit_die_size + rolled_hit_points + (hit_dice * get_ability_modifier(constitution));
+        cmp::max(1, max_hp)
+    } else {
+        (hit_dice * (hit_die_size+1) / 2) + (hit_dice * get_ability_modifier(constitution))
+    }
 }
 
 pub fn get_proficiency(hit_dice:i32) -> i32 {
@@ -63,13 +67,13 @@ mod tests {
 
     #[test]
     fn test_big_hit_points() {
-        let max_hp = get_max_hit_points(5, 22, 8, 15);
+        let max_hp = get_max_hit_points(5, 22, 8, 15, true);
         assert_eq!(40, max_hp);
     }
 
     #[test]
     fn test_small_hit_points() {
-        let max_hp = get_max_hit_points(1, 0, 4, 3);
+        let max_hp = get_max_hit_points(1, 0, 4, 3, true);
         assert_eq!(1, max_hp);
     }
 
