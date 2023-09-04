@@ -32,8 +32,9 @@ pub struct BaseCharacter {
     pub armor_class: i32,
     pub armor: Armor,
     pub proficiency: i32,
-    pub data: CharacterData,
-    pub actions: Vec<Box<Action>>
+    pub actions: Vec<Box<Action>>,
+    pub fighting_style: players::FightingStyle,
+    pub data: CharacterData
 }
 
 impl BaseCharacter {
@@ -52,8 +53,9 @@ impl BaseCharacter {
             armor_class: 0,
             armor: armor,
             proficiency: 0,
-            data: data,
             actions: vec![],
+            fighting_style: players::FightingStyle::NONE,
+            data: data
         }
     }
 
@@ -72,6 +74,7 @@ impl BaseCharacter {
             armor: armor,
             proficiency: 0,
             actions: vec![],
+            fighting_style: players::FightingStyle::NONE,
             data: CharacterData{
                 name: name,
                 strength: rules::roll_sum(4, 6, true),
@@ -92,7 +95,7 @@ impl BaseCharacter {
             self.hit_dice += 1;
             self.rolled_hit_points += rules::roll_die(self.hit_die_size);
             let lvl_up_fn = players::get_level_up_function();
-            lvl_up_fn();
+            lvl_up_fn(self);
             self.update();
         }
     }

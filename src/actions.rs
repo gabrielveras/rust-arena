@@ -6,26 +6,35 @@ use crate::console;
 use crate::equipments::weapon::{ WeaponProperty };
 
 pub enum Action {
-    MeleeWeaponAttack(MeleeWeaponAttack)
+    MeleeWeaponAttack(MeleeWeaponAttack),
+    SecondWind(SecondWind)
 }
 
 impl Action {
     pub fn execute(&self, ally: &BaseCharacter, enemy:&mut BaseCharacter) {
         match self {
             Action::MeleeWeaponAttack(ctx) => execute_melee_weapon_attack(ctx, ally, enemy),
+            Action::SecondWind(ctx) => todo!(),
         }
     }
     pub fn update(&mut self, owner_data:&CharacterData) {
         match self {
             Action::MeleeWeaponAttack(ctx) => update_melee_weapon_attack(ctx, owner_data),
+            Action::SecondWind(ctx) => todo!(),
         }
     }
     pub fn long_rest(&mut self) {
         match self {
             Action::MeleeWeaponAttack(ctx) => long_rest_melee_weapon_attack(ctx),
+            Action::SecondWind(ctx) => todo!(),
         }
     }
 }
+
+pub struct SecondWind {}
+impl SecondWind {}
+
+fn update_second_wind() {}
 
 pub struct MeleeWeaponAttack {
     pub name: String,

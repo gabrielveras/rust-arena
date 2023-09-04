@@ -61,11 +61,11 @@ pub mod weapon {
 
     bitflags! {
         pub struct WeaponProperty:i32 {
-            const NONE    = 0b000;
+            const NONE      = 0b000;
             const VERSATILE = 0b001;
         }
     }
-    
+
     pub fn longsword() -> Box<crate::actions::Action> {
         MeleeWeaponAttack::new(String::from("longsword"), (1,8), WeaponProperty::VERSATILE)
     }
